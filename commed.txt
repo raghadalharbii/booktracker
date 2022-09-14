@@ -1,0 +1,18 @@
+to create network 
+ docker network create booktracker-net
+
+to build Containers for mysql 
+docker run -itd -p 3306 --name booktracker-database 
+-e MYSQL_ROOT_PASSWORD=DevOps2022 -e MYSQL_DATABASE=booktracker 
+--network booktracker-net  mysql
+
+docker exec -it booktracker-database mysql -u root -p
+SHOW DATABASES;
+
+to build the image 
+docker build -t "hayaalnafisa/booktracker:1.0" .
+
+to build Containers for web
+docker run --rm -dit --name booktracker-web -p 9090:8080 -e DB_URL=booktracker-database -e DB_PORT=3306 -e DB_NAME=booktracker 
+-e DB_USERNAME=root -e DB_PASSWORD=DevOps2022 --network booktracker-net  hayaalnafisa/booktracker:1.0
+
