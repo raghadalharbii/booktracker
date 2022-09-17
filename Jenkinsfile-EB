@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage ("export values"){
             steps {
-                sh "aws configure set region ca-central-1"
+                sh "aws configure set region us-east-1"
             
         }
         }
