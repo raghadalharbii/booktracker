@@ -26,7 +26,7 @@ pipeline {
         
     }
     post {
-		always {
+		success {
 			echo "the EB has been created"
 		}
 	}
