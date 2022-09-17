@@ -20,13 +20,13 @@ pipeline {
 			steps {
 				sh 'docker build -t hayaalnafisa/booktracker .'
 			}
-            post {
-                success {
-                    //archiveArtifacts artifacts: '**/target/**.war', followSymlinks: false
-                    sh 'aws configure set region us-east-1'
-                    sh 'aws s3 cp ./booktracker.json s3://$AWS_S3_BUCKET/$ARTIFACT_NAME'
-                }
-            }
+//             post {
+//                 success {
+//                     //archiveArtifacts artifacts: '**/target/**.war', followSymlinks: false
+//                     sh 'aws configure set region us-east-1'
+//                     sh 'aws s3 cp ./booktracker.json s3://$AWS_S3_BUCKET/$ARTIFACT_NAME'
+//                 }
+//             }
 		}
 
 		stage('Login') {
