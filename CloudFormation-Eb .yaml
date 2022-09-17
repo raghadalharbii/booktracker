@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Elastic Beanstalk Application'
+
+################################################################################
+# resources
+################################################################################
+Resources:
+  ##############################################################################
+  # Beanstalk Application
+  ##############################################################################
+  BeanstalkApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: "book-tracker"
+      Description: AWS Elastic Beanstalk Application
+  ##############################################################################
+  # Beanstalk Application Version
+  ##############################################################################
+  BeanstalkApplicationVersion:
+    Type: AWS::ElasticBeanstalk::ApplicationVersion
+    Properties:
+      ApplicationName:
+        Ref: BeanstalkApplication
+      Description: AWS ElasticBeanstalk Application Version
+      SourceBundle:
+        S3Bucket: "devops-booktracker"
+        S3Key: booktracker.json
+  ##############################################################################
+  # Beanstalk ConfigurationTemplate
+  ##############################################################################
+  ConfigurationTemplate:
+    Type: AWS::ElasticBeanstalk::ConfigurationTemplate
+    Properties:
+      ApplicationName:
+        Ref: BeanstalkApplication
+      Description: AWS ElasticBeanstalk Configuration Template
+      OptionSettings:
+      - Namespace: 'aws:autoscaling:launchconfiguration'
+        OptionName: 'InstanceType'
+        Value: 't2.medium'
+      - Namespace: aws:autoscaling:asg
+        OptionName: MinSize
+        Value: '1'
+      - Namespace: aws:autoscaling:asg
+        OptionName: MaxSize
+        Value: '4'
+      - Namespace: aws:elasticbeanstalk:environment
+        OptionName: EnvironmentType
+        Value: LoadBalanced
+      - Namespace: aws:elasticbeanstalk:environment
+        OptionName: 'LoadBalancerType'
+        Value: 'application'
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: IamInstanceProfile
+        Value: !Ref EC2InstanceProfile
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: 'EC2KeyName'
+        Value: 'haya-key'
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_URL
+        Value: booktracker-database.cvrmum6abwbw.us-east-1.rds.amazonaws.com
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_NAME
+        Value: "booktracker"
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_USERNAME
+        Value: "root"
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_PASSWORD
+        Value: "DevOps2022"
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_PORT
+        Value: "3306"
+      SolutionStackName: "64bit Amazon Linux 2 v3.4.19 running Docker"
+  ##############################################################################
+  # Beanstalk Environment
+  ##############################################################################
+  BeanstalkEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      ApplicationName:
+        Ref: BeanstalkApplication
+      Description: AWS ElasticBeanstalk Sample Environment
+      EnvironmentName: booktracker-env
+      TemplateName:
+        Ref: ConfigurationTemplate
+      VersionLabel:
+        Ref: BeanstalkApplicationVersion
+  ##############################################################################
+  # IAM EC2 Instance Role
+  ##############################################################################
+  EC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Description: Beanstalk EC2 role
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+  ##############################################################################
+  # IAM EC2 Instance Profile
+  ##############################################################################
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - !Ref EC2InstanceRole
+        
