@@ -8,8 +8,8 @@ pipeline {
   		AWS_SECRET_ACCESS_KEY = credentials('Secret-Key')
 		ARTIFACT_NAME = 'booktracker.json'
 		AWS_S3_BUCKET = 'devops-booktracker'
-		AWS_EB_APP_NAME = 'booktracker'
-        AWS_EB_ENVIRONMENT_NAME = 'Booktracker-env'
+		AWS_EB_APP_NAME = 'book-tracker'
+        AWS_EB_ENVIRONMENT_NAME = 'booktracker-env'
         AWS_EB_APP_VERSION = "${BUILD_ID}"
 	}
 

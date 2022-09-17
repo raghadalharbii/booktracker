@@ -10,12 +10,12 @@ pipeline {
 	}
 
     stages {
-        // stage ("export values"){
-        //     steps {
-        //         sh "aws configure set region us-east-1"
+        stage ("export values"){
+            steps {
+                sh "aws configure set region us-east-1"
             
-        // }
-        // }
+            }
+        }
         stage ("run CF command"){
             steps {
                 sh "aws configure set region us-east-1"
