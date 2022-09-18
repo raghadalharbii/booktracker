@@ -5,8 +5,8 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-        - DomainName: awseb-AWSEB-RHP6P2EAL60O-1145135622.us-east-1.elb.amazonaws.com
-          Id: awseb-AWSEB-RHP6P2EAL60O
+        - DomainName: awseb-AWSEB-10U5CTRCKIG8B-1047931632.us-east-1.elb.amazonaws.com
+          Id: awseb-AWSEB-10U5CTRCKIG8B
           CustomOriginConfig:
             HTTPPort: '80'
             HTTPSPort: '443'
