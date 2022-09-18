@@ -19,7 +19,7 @@ pipeline {
         stage ("run CF command"){
             steps {
                 sh "aws configure set region us-east-1"
-                sh "aws cloudformation create-stack --stack-name booktracker --template-body file://cloudfront-booktracker.yaml"
+                sh "aws cloudformation create-stack --stack-name booktracker-CFront --template-body file://cloudfront-booktracker.yaml"
 
             }
         }
