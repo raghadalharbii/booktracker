@@ -14,7 +14,7 @@ Resources:
         Enabled: 'true'
         Comment: booktracker-app
         DefaultCacheBehavior:
-          TargetOriginId: awseb-AWSEB-RHP6P2EAL60O
+          TargetOriginId: awseb-AWSEB-10U5CTRCKIG8B
           SmoothStreaming: 'false'
           ForwardedValues:
             QueryString: 'false'
