@@ -18,6 +18,7 @@ pipeline {
 		stage('Build') {
 
 			steps {
+				sh 'chmod 777 /var/run/docker.sock'
 				sh 'docker build -t hayaalnafisa/booktracker .'
 			}
 //             post {
