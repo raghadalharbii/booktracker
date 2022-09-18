@@ -10,23 +10,23 @@ pipeline {
 	}
 
     stages {
-        // stage ("export values"){
-        //     steps {
-        //         sh "aws configure set region us-east-1"
-            
-        // }
-        // }
-        stage ("run CF command"){
+        stage ("export values"){
             steps {
                 sh "aws configure set region us-east-1"
-                sh "aws cloudformation create-stack --stack-name booktracker --template-body file://CloudFormation-Eb.yml"
+            
+        }
+        }
+        stage ("run CF command"){
+            steps {
+                //sh "aws configure set region us-east-1"
+                sh "aws cloudformation create-stack --stack-name booktracker --template-body file://CloudFormation-Eb.yaml --capabilities CAPABILITY_NAMED_IAM"
 
             }
         }
         
     }
     post {
-		always {
+		success {
 			echo "the EB has been created"
 		}
 	}
