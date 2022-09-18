@@ -3,7 +3,7 @@ pipeline {
 	agent any
 
 	environment {
-		DOCKERHUB_CREDENTIALS=credentials('Docker-key')
+		DOCKERHUB_CREDENTIALS = credentials('Docker-key')
 		AWS_ACCESS_KEY_ID     = credentials('Access-Key')
   		AWS_SECRET_ACCESS_KEY = credentials('Secret-Key')
 		ARTIFACT_NAME = 'booktracker.json'
@@ -18,7 +18,7 @@ pipeline {
 		stage('Build') {
 
 			steps {
-				sh 'sudo usermod -a -G docker jenkins'
+				//sh 'sudo usermod -a -G docker jenkins'
 				
 				sh 'docker build -t hayaalnafisa/booktracker .'
 			}
