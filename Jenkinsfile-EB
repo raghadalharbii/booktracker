@@ -1,0 +1,36 @@
+pipeline {
+
+    agent any
+
+	environment {
+		
+		AWS_ACCESS_KEY_ID     = credentials('Access-Key')
+  		AWS_SECRET_ACCESS_KEY = credentials('Secret-Key')
+		
+	}
+
+    stages {
+        // stage ("export values"){
+        //     steps {
+        //         sh "aws configure set region us-east-1"
+            
+        // }
+        // }
+        stage ("run CF command"){
+            steps {
+                sh "aws configure set region us-east-1"
+                sh "aws cloudformation create-stack --stack-name booktracker --template-body file://CloudFormation-Eb.yml"
+
+            }
+        }
+        
+    }
+    post {
+		always {
+			echo "the EB has been created"
+		}
+	}
+
+
+
+}
