@@ -3,13 +3,13 @@ pipeline {
 	agent any
 
 	environment {
-		DOCKERHUB_CREDENTIALS=credentials('Docker-key')
+		DOCKERHUB_CREDENTIALS = credentials('Docker-key')
 		AWS_ACCESS_KEY_ID     = credentials('Access-Key')
   		AWS_SECRET_ACCESS_KEY = credentials('Secret-Key')
 		ARTIFACT_NAME = 'booktracker.json'
 		AWS_S3_BUCKET = 'devops-booktracker'
-		AWS_EB_APP_NAME = 'booktracker'
-        AWS_EB_ENVIRONMENT_NAME = 'Booktracker-env'
+		AWS_EB_APP_NAME = 'book-tracker'
+        AWS_EB_ENVIRONMENT_NAME = 'booktracker-env'
         AWS_EB_APP_VERSION = "${BUILD_ID}"
 	}
 
@@ -18,15 +18,17 @@ pipeline {
 		stage('Build') {
 
 			steps {
+				//sh 'sudo usermod -a -G docker jenkins'
+				
 				sh 'docker build -t hayaalnafisa/booktracker .'
 			}
-            post {
-                success {
-                    //archiveArtifacts artifacts: '**/target/**.war', followSymlinks: false
-                    sh 'aws configure set region us-east-1'
-                    sh 'aws s3 cp ./booktracker.json s3://$AWS_S3_BUCKET/$ARTIFACT_NAME'
-                }
-            }
+//             post {
+//                 success {
+//                     //archiveArtifacts artifacts: '**/target/**.war', followSymlinks: false
+//                     sh 'aws configure set region us-east-1'
+//                     sh 'aws s3 cp ./booktracker.json s3://$AWS_S3_BUCKET/$ARTIFACT_NAME'
+//                 }
+//             }
 		}
 
 		stage('Login') {
