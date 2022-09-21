@@ -5,8 +5,8 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-        - DomainName: awseb-AWSEB-10U5CTRCKIG8B-1047931632.us-east-1.elb.amazonaws.com
-          Id: awseb-AWSEB-10U5CTRCKIG8B
+        - DomainName: #here give the DNS URL
+          Id: #here write name of load balancer
           CustomOriginConfig:
             HTTPPort: '80'
             HTTPSPort: '443'
@@ -14,7 +14,7 @@ Resources:
         Enabled: 'true'
         Comment: booktracker-app
         DefaultCacheBehavior:
-          TargetOriginId: awseb-AWSEB-10U5CTRCKIG8B
+          TargetOriginId: #here write name of load balancer
           SmoothStreaming: 'false'
           ForwardedValues:
             QueryString: 'false'
